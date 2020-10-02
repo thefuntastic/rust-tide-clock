@@ -1,11 +1,11 @@
 
 # Rust + Raspberry Pi Tide Clock
 
-Source code for a digital tide clock with accurate and location specific tidal readings. The maker project conceived as heartwarming birthday present, you can read more about the build and construction [on my blog](https://thefuntastic.com/blog/rust-tide-clock).
+Source code for a digital tide clock with accurate and location specific tidal readings. This maker project conceived as heartwarming birthday present, you can read more about the build and construction [on my blog](https://thefuntastic.com/blog/rust-tide-clock).
 
-I provide no guarantees about idiomatic usage or correct code conventions, particular as my Rust exposure was limited at the time of writing. The code is merely provided as a sample for the curious, however there are some bits that may be of interest to wider audience.
+I provide no guarantees about idiomatic usage or correct code conventions, in particular as my Rust exposure was limited at the time of writing. The code is merely provided as a sample for the curious, however there are some bits that may be of interest to wider audience.
 
-In particular `src/ssd1305.rs` is a working reference implementation of communicating to a Waveshare SSD1305 by use of the `rppal` crate. This may be of use to other makers working on similar embedded projects. 
+In particular `src/ssd1305.rs` is a working reference implementation of communicating to a [Waveshare SSD1305](https://thepihut.com/collections/waveshare/products/128x32-2-23inch-oled-display-hat-for-raspberry-pi) by use of the `rppal` crate. This may be of use to other makers working on similar embedded projects. 
 
 ## Usage 
 
@@ -15,15 +15,15 @@ To change the location, you can use the [WorldTiles console](https://www.worldti
 
 ## Cross Platform Development
 
-On Raspberry Pi, assuming you've got the appropriately screen attached all display logic will be output to the screen. On other platforms (such as Windows), output will instead be saved to `tide-clock/resources/display.bmp`. Visual Studio Code will hot reload images on change, which allows effective development on other platforms
+On Raspberry Pi, assuming you've got the appropriate screen attached, all display logic will be output to the screen via the GPIO pins. On other platforms (e.g. Windows), output will instead be saved to `tide-clock/resources/display.bmp`. Visual Studio Code will hot reload images on change, which allows effective development on other platforms
 
 ## Cross Platform Compilation 
 
-If you're building on Raspberry Pi 3, running the project is simply a matter of installing rustup and calling `cargo run`. If you wish to target Raspberry Pi Zero, this [blog post](https://piers.rocks/docker/containers/raspberry/pi/rust/cross/compile/compilation/2018/12/16/rust-compilation-for-raspberry-pi.html) provides a guide to the considerations. The `.gitlab-ci.yml` file provides a working implementation of this on **Gitlab** (this is hosted **Github** for distribution purposes only). 
-
+If you're building on Raspberry Pi 3, running the project is simply a matter of installing rustup and calling `cargo run`. If you wish to target Raspberry Pi Zero, this [blog post](https://piers.rocks/docker/containers/raspberry/pi/rust/cross/compile/compilation/2018/12/16/rust-compilation-for-raspberry-pi.html) provides a guide to the considerations. The `.gitlab-ci.yml` file provides a working implementation of this on **Gitlab** (this is hosted on **Github** for distribution purposes only). 
+ 
 ## Licence
 
-The licence is GNU GPL v3. Any non-commercial or makers are encouraged to use the code as they wish. Any commercial usage should contact me directly for a commercial licence.   
+The licence is GNU GPL v3. Any makers and other non-commercial users are encouraged to use the code as they wish. Any commercial usage should contact me directly for a commercial licence.   
 
 ---
 

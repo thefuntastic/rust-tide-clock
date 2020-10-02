@@ -1,0 +1,8 @@
+#To find out what options are availaibe refer to https://www.worldtides.info/ or https://www.worldtides.info/apidocs
+
+# Den Helder, Netherlands
+lat = "52.970"
+lon = "4.740"
+
+step = "1000"
+datum = "LAT"

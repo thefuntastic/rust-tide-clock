@@ -1,0 +1,14 @@
+# NB!! This is a Gitlab build file, not a Github build script. Should work if the repo is hosted in gitlab, or if provide a starting point for github actions
+image: "piersfinlayson/build:0.3.6"
+
+build:cargo:
+  script:
+    - cd tide-clock/
+    #- cargo build --verbose --release --target arm-unknown-linux-gnueabihf --features vendored 
+    #- cp -r resources/ target/arm-unknown-linux-gnueabihf/release
+    - cargo build --verbose --release --target arm-unknown-linux-musleabihf 
+    - cp -r resources/ target/arm-unknown-linux-musleabihf/release
+  artifacts:
+    paths:
+      - tide-clock/target/arm-unknown-linux-musleabihf/release/tide-clock
+      - tide-clock/target/arm-unknown-linux-musleabihf/release/resources

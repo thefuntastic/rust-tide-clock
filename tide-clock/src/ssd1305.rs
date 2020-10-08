@@ -1,5 +1,4 @@
 use std::thread;
-use std::error::Error;
 use std::time::Duration;
 use rppal::gpio::{self, Gpio};
 use rppal::spi::{Bus, Mode, SlaveSelect, Spi};

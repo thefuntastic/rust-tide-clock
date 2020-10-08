@@ -19,7 +19,26 @@ On Raspberry Pi, assuming you've got the appropriate screen attached, all displa
 
 ## Cross Platform Compilation 
 
-If you're building on Raspberry Pi 3, running the project is simply a matter of installing rustup and calling `cargo run`. If you wish to target Raspberry Pi Zero, this [blog post](https://piers.rocks/docker/containers/raspberry/pi/rust/cross/compile/compilation/2018/12/16/rust-compilation-for-raspberry-pi.html) provides a guide to the considerations. The `.gitlab-ci.yml` file provides a working implementation of this on **Gitlab** (this is hosted on **Github** for distribution purposes only). 
+If you're building on Raspberry Pi 3, running the project is simply a matter of installing rustup and calling `cargo run`.
+
+If you are cross-compiling, this [blog post](https://piers.rocks/docker/containers/raspberry/pi/rust/cross/compile/compilation/2018/12/16/rust-compilation-for-raspberry-pi.html) provides a guide to the considerations. The `.gitlab-ci.yml` file provides a working implementation of this on **Gitlab** (this is hosted on **Github** for distribution purposes only).
+
+If you are cross-compiling, you may also build a binary that will run on Raspberry Pi Zero and Raspberry Pi locally. You'll need a directory containing a `libopenssl-1.1.0g` installation targeted at `arm-unknown-linux-gnueabihf`. You can build this from source following the instructions in the [`rust-openssl`](https://github.com/sfackler/rust-openssl) `README`, but you might want to check the status of [Issue #1354](https://github.com/sfackler/rust-openssl/issues/1354) to see if you need to patch the source before trying to build. Then
+
+```sh
+./Configure --prefix=/foo linux-armv4 -fPIC
+make
+make install
+```
+
+Once you've done that, you'll need to tell `rust-openssl` to use that for cross compilation via
+
+```sh
+OPENSSL_DIR=/foo
+export OPENSSL_DIR
+```
+
+You can then build via `cargo build --target arm-unknown-linux-gnueabihf` and find the binary in `target/arm-unknown-linux-gnueabihf/debug/tide-clock` to copy to the Pi.
  
 ## Licence
 

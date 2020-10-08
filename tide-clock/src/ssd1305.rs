@@ -1,6 +1,6 @@
 use std::thread;
 use std::time::Duration;
-use rppal::gpio::{self, Gpio};
+use rppal::gpio;
 use rppal::spi::{Bus, Mode, SlaveSelect, Spi};
 
 //BCM pin numbers
@@ -10,7 +10,8 @@ const WIDTH : usize = 128;
 const HEIGHT : usize = 32;
 
 pub struct Ssd1305Controller {
-    gpio : Gpio,
+    gpio_dc : gpio::OutputPin,
+    gpio_rst : gpio::OutputPin,
     spi : Spi,
     
     buffer : [u8; 512],
@@ -21,7 +22,7 @@ impl Ssd1305Controller {
 	fn command(&mut self, cmd:u8){
 		//println!("{}", cmd);
 		
-		&self.gpio.write(GPIO_DC, gpio::Level::Low);
+		&self.gpio_dc.write(gpio::Level::Low);
 		
 		let write_buffer = vec![cmd]; //Could make this a look up for less memory pressure
 		
@@ -36,7 +37,7 @@ impl Ssd1305Controller {
 			self.command(0xB0 + page); //Set page address
 			self.command(0x04); //Set low column address
 			self.command(0x10); //Set high column address
-			self.gpio.write(GPIO_DC, gpio::Level::High);
+			self.gpio_dc.write(gpio::Level::High);
 			
 			//Typing shennigans       
 			let page_usize  = page as usize;
@@ -78,16 +79,17 @@ impl Ssd1305Controller {
 
 
 fn setup() -> Ssd1305Controller {
-    let mut gpio = Gpio::new().unwrap();
+    let gpio = gpio::Gpio::new().unwrap();
     let spi = Spi::new(Bus::Spi0, SlaveSelect::Ss0, 8_000_000, Mode::Mode0).unwrap();
     
-    gpio.set_mode(GPIO_DC, gpio::Mode::Output);
-    gpio.set_mode(GPIO_RST, gpio::Mode::Output);
+    let gpio_dc = gpio.get(GPIO_DC).unwrap().into_output();
+    let gpio_rst = gpio.get(GPIO_RST).unwrap().into_output();
     
     let buffer = [0x00; 512];
     
     Ssd1305Controller { 
-        gpio :gpio,
+        gpio_dc,
+        gpio_rst,
         spi : spi,
         buffer : buffer,
     }
@@ -139,11 +141,11 @@ pub fn init() -> Ssd1305Controller {
 
 fn reset(controller : &mut Ssd1305Controller ) {
     
-    controller.gpio.write(GPIO_RST, gpio::Level::High);
+    controller.gpio_rst.write(gpio::Level::High);
     thread::sleep(Duration::from_millis(10));
-    controller.gpio.write(GPIO_RST, gpio::Level::Low);
+    controller.gpio_rst.write(gpio::Level::Low);
     thread::sleep(Duration::from_millis(10));
-    controller.gpio.write(GPIO_RST, gpio::Level::High);
+    controller.gpio_rst.write(gpio::Level::High);
 }
 
 

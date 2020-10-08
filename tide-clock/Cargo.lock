@@ -808,12 +808,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "quick-error"
-version = "1.2.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a1d01941d82fa2ab50be1e79e6714289dd7cde78eba4c074bc5a4374f650dfe0"
-
-[[package]]
 name = "quote"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -941,12 +935,12 @@ dependencies = [
 
 [[package]]
 name = "rppal"
-version = "0.9.0"
+version = "0.11.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1154df4b7b87fdb9d0032c7af1b45f47247a4585b7ae71c06f2d3e1d152d3650"
+checksum = "137dbba1fb867daa27cda4c3cd6a11bca5bb5a1551f034cf9319b994846ddbe1"
 dependencies = [
+ "lazy_static",
  "libc",
- "quick-error",
 ]
 
 [[package]]

@@ -6,10 +6,16 @@ use tides::{TideModel, TideModelWindow};
 mod display;
 mod font;
 mod maths;
+mod tides;
+use display::{GraphCanvas, Painter, RenderDevice, TextField, WaterMark};
+
+// When cross-compiling, use display emulation. When compiling
+// for target hardware, use the actual hardware. XXX This might
+// be better as a feature flag?
+#[cfg(not(target_arch = "arm"))]
+use display::ImageWriter;
 #[cfg(target_arch = "arm")]
 mod ssd1305;
-mod tides;
-use display::{GraphCanvas, ImageWriter, Painter, RenderDevice, TextField, WaterMark};
 
 const MAX_RETRIES: i32 = 3;
 

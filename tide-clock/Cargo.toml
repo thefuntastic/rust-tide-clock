@@ -19,4 +19,4 @@ tokio = { version = "0.2", features = ["full"] }
 simple-error = "0.1.9"
 
 [target.'cfg(target_arch="arm")'.dependencies]
-rppal = "0.9.0"
+rppal = "0.11"

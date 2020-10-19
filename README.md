@@ -17,13 +17,17 @@ To change the location, you can use the [WorldTiles console](https://www.worldti
 
 On Raspberry Pi, assuming you've got the appropriate screen attached, all display logic will be output to the screen via the GPIO pins. On other platforms (e.g. Windows), output will instead be saved to `tide-clock/resources/display.bmp`. Visual Studio Code will hot reload images on change, which allows effective development on other platforms
 
-## Cross Platform Compilation 
+### Cross Platform Compilation 
 
 If you're building on Raspberry Pi 3, running the project is simply a matter of installing rustup and calling `cargo run`.
 
-If you are cross-compiling, this [blog post](https://piers.rocks/docker/containers/raspberry/pi/rust/cross/compile/compilation/2018/12/16/rust-compilation-for-raspberry-pi.html) provides a guide to the considerations. The `.gitlab-ci.yml` file provides a working implementation of this on **Gitlab** (this is hosted on **Github** for distribution purposes only).
+#### Gitlab CI cross compilation 
+This is the orignal method used during development. This [blog post](https://piers.rocks/docker/containers/raspberry/pi/rust/cross/compile/compilation/2018/12/16/rust-compilation-for-raspberry-pi.html) provides a guide to the considerations. The `.gitlab-ci.yml` file provides a working implementation of this on **Gitlab** (this is hosted on **Github** for distribution purposes only). You will need to host your own repository on gitlab in order to enable the ci script.
 
-If you are cross-compiling, you may also build a binary that will run on Raspberry Pi Zero and Raspberry Pi locally. You'll need a directory containing a `libopenssl-1.1.0g` installation targeted at `arm-unknown-linux-gnueabihf`. You can build this from source following the instructions in the [`rust-openssl`](https://github.com/sfackler/rust-openssl) `README`, but you might want to check the status of [Issue #1354](https://github.com/sfackler/rust-openssl/issues/1354) to see if you need to patch the source before trying to build. Then
+#### Local cross compilation, provided by 
+Generously contributed by @BartMassey, this details building for both Raspberry Pi Zero and Raspberry Pi from a local environment. Note: This method hasn't been tested in production, no guarantees included. 
+
+You'll need a directory containing a `libopenssl-1.1.0g` installation targeted at `arm-unknown-linux-gnueabihf`. You can build this from source following the instructions in the [`rust-openssl`](https://github.com/sfackler/rust-openssl) `README`, but you might want to check the status of [Issue #1354](https://github.com/sfackler/rust-openssl/issues/1354) to see if you need to patch the source before trying to build. Then
 
 ```sh
 ./Configure --prefix=/foo linux-armv4 -fPIC
@@ -48,7 +52,7 @@ The licence is GNU GPL v3. Any makers and other non-commercial users are encoura
 
 # Personal Anecdata
 
-The following excerpts from my personal are provided for reference only. They do however contain some additional context that might prove useful.
+The following excerpts from my personal notes are provided for reference only. They do however contain some additional context that might prove useful.
 
 ## Restarting the program on Pi boot
 
@@ -133,10 +137,7 @@ I'll admit my understanding of this isn't stellar, however I know SPI is a forma
 
 With version 0.10.0 the library changed it's API to per pin access. From what I can understand this brings technical benefits (thread safety etc), however it also includes advanced rust type shenannigans I struggled with.
 
-This real world project based on v0.6.0 was close enough to the patterns I was thinking of to serve as a reference for our project.
-https://github.com/KaneTW/pt100-controller/blob/master/src/main.rs
-
-NB it seems v0.9.0 is the latest equivalent with a compatible API to v0.6.0;
+Originally the project used `rppal` v0.9.0, the last version before the refactor. Again thanks to @BartMassey for contributing the updgrade to `rppal` v0.11.
 
 ### Image Crate 
 

@@ -10,8 +10,8 @@ mod tides;
 use display::{GraphCanvas, Painter, RenderDevice, TextField, WaterMark};
 
 // When cross-compiling, use display emulation. When compiling
-// for target hardware, use the actual hardware. XXX This might
-// be better as a feature flag?
+// for target hardware, use the actual hardware.
+// This should be feature flag instead, but was unaware of the language feature at the time of implementation
 #[cfg(not(target_arch = "arm"))]
 use display::ImageWriter;
 #[cfg(target_arch = "arm")]
